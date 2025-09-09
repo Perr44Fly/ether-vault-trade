@@ -101,7 +101,7 @@ export const CONTRACT_ABI = [
 ] as const
 
 // Contract configuration
-export const CONTRACT_ADDRESS = process.env.VITE_CONTRACT_ADDRESS as `0x${string}` || '0x0000000000000000000000000000000000000000'
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS as `0x${string}` || '0x0000000000000000000000000000000000000000'
 
 // Token addresses (example addresses for common tokens)
 export const TOKEN_ADDRESSES = {
@@ -114,7 +114,7 @@ export const TOKEN_ADDRESSES = {
 // Create public client for reading from blockchain
 export const publicClient = createPublicClient({
   chain: sepolia,
-  transport: http(process.env.VITE_SEPOLIA_RPC_URL)
+  transport: http(import.meta.env.VITE_SEPOLIA_RPC_URL || 'https://sepolia.infura.io/v3/demo')
 })
 
 // Create wallet client for writing to blockchain
@@ -122,7 +122,7 @@ export const createWalletClient = (account: any) => {
   return createWalletClient({
     account,
     chain: sepolia,
-    transport: http(process.env.VITE_SEPOLIA_RPC_URL)
+    transport: http(import.meta.env.VITE_SEPOLIA_RPC_URL || 'https://sepolia.infura.io/v3/demo')
   })
 }
 

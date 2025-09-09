@@ -3,7 +3,7 @@ import { sepolia, mainnet } from 'wagmi/chains'
 import { injected, metaMask, walletConnect } from 'wagmi/connectors'
 
 // Get projectId from https://cloud.walletconnect.com
-export const projectId = process.env.VITE_WALLETCONNECT_PROJECT_ID || 'your-project-id'
+export const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'demo-project-id'
 
 // Create wagmi config
 export const config = createConfig({
@@ -14,8 +14,8 @@ export const config = createConfig({
     walletConnect({ projectId }),
   ],
   transports: {
-    [sepolia.id]: http(),
-    [mainnet.id]: http(),
+    [sepolia.id]: http(import.meta.env.VITE_SEPOLIA_RPC_URL || 'https://sepolia.infura.io/v3/demo'),
+    [mainnet.id]: http(import.meta.env.VITE_MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/demo'),
   },
 })
 

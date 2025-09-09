@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Corporate OTC Desk Theme - High Contrast Professional */
+    --background: 0 0% 100%; /* pure white HSL */
+    --foreground: 220 91% 9%; /* very dark navy HSL */
+
+    --card: 0 0% 100%; /* white HSL */
+    --card-foreground: 220 91% 9%; /* very dark navy HSL */
+
+    --popover: 0 0% 100%; /* white HSL */
+    --popover-foreground: 220 91% 9%; /* very dark navy HSL */
+
+    --primary: 160 84% 39%; /* emerald-600 HSL */
+    --primary-foreground: 0 0% 100%; /* white HSL */
+
+    --secondary: 210 40% 96%; /* slate-100 HSL */
+    --secondary-foreground: 215 25% 27%; /* slate-700 HSL */
+
+    --muted: 210 40% 98%; /* slate-50 HSL */
+    --muted-foreground: 215 16% 47%; /* slate-500 HSL */
+
+    --accent: 214 100% 97%; /* blue-50 HSL */
+    --accent-foreground: 213 94% 68%; /* blue-500 HSL */
+
+    --destructive: 0 84% 60%; /* red-500 HSL */
+    --destructive-foreground: 0 0% 100%; /* white HSL */
+
+    --border: 214 32% 91%; /* slate-200 HSL */
+    --input: 210 40% 98%; /* slate-50 HSL */
+    --ring: 160 84% 39%; /* emerald-600 HSL */
+
+    /* Custom Corporate Colors */
+    --corporate-primary: 220 91% 9%; /* very dark navy HSL */
+    --corporate-secondary: 215 20% 65%; /* slate-500 HSL */
+    --corporate-accent: 160 84% 39%; /* emerald-600 HSL */
+    --corporate-success: 142 76% 36%; /* emerald-600 HSL */
+    --corporate-warning: 32 95% 44%; /* orange-500 HSL */
+    --corporate-surface: 0 0% 100%; /* white HSL */
+    --corporate-border: 214 32% 91%; /* slate-200 HSL */
+    
+    /* Trading Specific */
+    --trading-profit: 142 72% 29%; /* green-700 HSL */
+    --trading-loss: 0 74% 42%; /* red-600 HSL */
+    --trading-neutral: 215 16% 47%; /* slate-500 HSL */
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 91% 9%; /* very dark navy HSL */
+    --foreground: 0 0% 100%; /* white HSL */
+
+    --card: 215 28% 17%; /* slate-800 HSL */
+    --card-foreground: 0 0% 100%; /* white HSL */
+
+    --popover: 215 28% 17%; /* slate-800 HSL */
+    --popover-foreground: 0 0% 100%; /* white HSL */
+
+    --primary: 160 84% 39%; /* emerald-600 HSL */
+    --primary-foreground: 0 0% 100%; /* white HSL */
+
+    --secondary: 215 25% 27%; /* slate-700 HSL */
+    --secondary-foreground: 210 40% 98%; /* slate-50 HSL */
+
+    --muted: 215 16% 47%; /* slate-500 HSL */
+    --muted-foreground: 214 32% 91%; /* slate-200 HSL */
+
+    --accent: 160 84% 39%; /* emerald-600 HSL */
+    --accent-foreground: 0 0% 100%; /* white HSL */
+
+    --destructive: 0 74% 42%; /* red-600 HSL */
+    --destructive-foreground: 0 0% 100%; /* white HSL */
+
+    --border: 215 16% 47%; /* slate-500 HSL */
+    --input: 215 25% 27%; /* slate-700 HSL */
+    --ring: 160 84% 39%; /* emerald-600 HSL */
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

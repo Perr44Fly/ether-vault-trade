@@ -4,12 +4,6 @@
   "framework": "vite",
   "installCommand": "npm install",
   "devCommand": "npm run dev",
-  "env": {
-    "VITE_WALLETCONNECT_PROJECT_ID": "@walletconnect-project-id",
-    "VITE_CONTRACT_ADDRESS": "@contract-address",
-    "VITE_SEPOLIA_RPC_URL": "@sepolia-rpc-url",
-    "VITE_MAINNET_RPC_URL": "@mainnet-rpc-url"
-  },
   "headers": [
     {
       "source": "/(.*)",

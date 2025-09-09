@@ -1,22 +1,86 @@
-import { useState } from "react";
-import { ArrowDownUp, TrendingUp, Eye, EyeOff } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowDownUp, TrendingUp, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useContract } from "@/hooks/useContract";
+import { useAccount } from "wagmi";
+import { toast } from "sonner";
 
 const TradingInterface = () => {
   const [fromToken, setFromToken] = useState("USDT");
   const [toToken, setToToken] = useState("ETH");
   const [amount, setAmount] = useState("");
   const [isPrivate, setIsPrivate] = useState(true);
+  const [estimatedOutput, setEstimatedOutput] = useState("");
+  const [balances, setBalances] = useState<Record<string, number>>({});
+  
+  const { address, isConnected } = useAccount();
+  const { createTrade, getBalance, isLoading } = useContract();
 
   const tokens = [
-    { symbol: "USDT", name: "Tether USD", balance: "1,250,000" },
-    { symbol: "ETH", name: "Ethereum", balance: "456.78" },
-    { symbol: "BTC", name: "Bitcoin", balance: "12.45" },
-    { symbol: "USDC", name: "USD Coin", balance: "890,000" },
+    { symbol: "USDT", name: "Tether USD" },
+    { symbol: "ETH", name: "Ethereum" },
+    { symbol: "BTC", name: "Bitcoin" },
+    { symbol: "USDC", name: "USD Coin" },
   ];
+
+  // Load balances when wallet connects
+  useEffect(() => {
+    if (isConnected && address) {
+      const loadBalances = async () => {
+        const newBalances: Record<string, number> = {};
+        for (const token of tokens) {
+          const balance = await getBalance(token.symbol);
+          newBalances[token.symbol] = balance;
+        }
+        setBalances(newBalances);
+      };
+      loadBalances();
+    }
+  }, [isConnected, address, getBalance]);
+
+  // Calculate estimated output when amount changes
+  useEffect(() => {
+    if (amount && fromToken && toToken) {
+      // Mock calculation - in real implementation, this would come from the contract
+      const mockRate = fromToken === "USDT" && toToken === "ETH" ? 2451.45 : 1;
+      const output = (parseFloat(amount.replace(/,/g, '')) / mockRate).toFixed(4);
+      setEstimatedOutput(output);
+    }
+  }, [amount, fromToken, toToken]);
+
+  const handleExecuteTrade = async () => {
+    if (!isConnected) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    if (!amount || parseFloat(amount) <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
+    try {
+      const deadline = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
+      const minToAmount = parseFloat(estimatedOutput) * 0.95; // 5% slippage tolerance
+      
+      await createTrade(
+        fromToken,
+        toToken,
+        amount,
+        minToAmount.toString(),
+        deadline
+      );
+      
+      // Reset form
+      setAmount("");
+      setEstimatedOutput("");
+    } catch (error) {
+      console.error("Trade execution failed:", error);
+    }
+  };
 
   const recentTrades = [
     { pair: "ETH/USDT", amount: "500,000", price: "2,450.30", status: "Completed", pnl: "+2.1%" },
@@ -52,7 +116,7 @@ const TradingInterface = () => {
                       <div className="flex items-center justify-between w-full">
                         <span className="font-medium">{token.symbol}</span>
                         <span className="text-sm text-muted-foreground ml-2">
-                          {token.balance}
+                          {balances[token.symbol] ? balances[token.symbol].toFixed(2) : "0.00"}
                         </span>
                       </div>
                     </SelectItem>
@@ -73,7 +137,7 @@ const TradingInterface = () => {
                       <div className="flex items-center justify-between w-full">
                         <span className="font-medium">{token.symbol}</span>
                         <span className="text-sm text-muted-foreground ml-2">
-                          {token.balance}
+                          {balances[token.symbol] ? balances[token.symbol].toFixed(2) : "0.00"}
                         </span>
                       </div>
                     </SelectItem>
@@ -111,7 +175,7 @@ const TradingInterface = () => {
                 <div className="flex justify-between text-sm">
                   <span className="text-corporate-secondary">You'll Receive</span>
                   <span className="font-mono font-medium">
-                    ~{(parseFloat(amount.replace(/,/g, '')) / 2451.45).toFixed(4)} {toToken}
+                    ~{estimatedOutput} {toToken}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -132,9 +196,17 @@ const TradingInterface = () => {
               <ArrowDownUp className="mr-2 h-4 w-4" />
               Toggle Privacy
             </Button>
-            <Button className="bg-corporate-primary hover:bg-corporate-secondary">
-              <TrendingUp className="mr-2 h-4 w-4" />
-              Execute Trade
+            <Button 
+              className="bg-corporate-primary hover:bg-corporate-secondary"
+              onClick={handleExecuteTrade}
+              disabled={isLoading || !isConnected}
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <TrendingUp className="mr-2 h-4 w-4" />
+              )}
+              {isLoading ? "Executing..." : "Execute Trade"}
             </Button>
           </div>
         </CardContent>

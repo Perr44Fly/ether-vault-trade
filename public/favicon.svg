@@ -1,0 +1,17 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#1a1a1a"/>
+  
+  <!-- Shield icon representing security -->
+  <path d="M16 4L8 8V16C8 20.5 12 24 16 24C20 24 24 20.5 24 16V8L16 4Z" fill="#3b82f6" stroke="#60a5fa" stroke-width="1"/>
+  
+  <!-- Lock icon inside shield -->
+  <rect x="13" y="14" width="6" height="4" rx="1" fill="#ffffff"/>
+  <path d="M14 14V12C14 10.5 15 9 16 9C17 9 18 10.5 18 12V14" stroke="#ffffff" stroke-width="1" fill="none"/>
+  
+  <!-- Small dots representing encrypted data -->
+  <circle cx="10" cy="10" r="1" fill="#60a5fa"/>
+  <circle cx="22" cy="10" r="1" fill="#60a5fa"/>
+  <circle cx="10" cy="22" r="1" fill="#60a5fa"/>
+  <circle cx="22" cy="22" r="1" fill="#60a5fa"/>
+</svg>
